@@ -13,8 +13,6 @@ namespace SalesForceIntegration.Controllers
     {
         public ActionResult Index()
         {
-
-
             return View();
         }
 

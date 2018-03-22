@@ -64,4 +64,11 @@ a.navbar-brand
     width:100px;
     
 }
+.fc-state-active {
+    background-color: rgb(146, 213, 240);
+}
+.fc-agendaDay-button fc-button fc-state-default fc-corner-right {
+    background-color: rgb(146, 213, 240);
+}
+
  

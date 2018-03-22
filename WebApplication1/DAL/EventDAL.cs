@@ -3,6 +3,7 @@ using SalesForceIntegration.SalesForceService;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 
@@ -28,25 +29,18 @@ namespace SalesForceIntegration.DAL
                 SfdcBinding = new SforceService();
                 try
                 {
-
                     CurrentLoginResult = SfdcBinding.login(userName, password + securityToken);
-
                     //Change the binding to the new endpoint
-
                     SfdcBinding.Url = CurrentLoginResult.serverUrl;
-
                     //Create a new session header object and set the session id to that returned by the login
-
                     SessionHeader sessionHeader = new SessionHeader();
                     SfdcBinding.SessionHeaderValue = sessionHeader;
-
                     SfdcBinding.SessionHeaderValue.sessionId = CurrentLoginResult.sessionId;
-
-
                 }
                 catch (Exception e)
                 {
-                    
+                    EventLog.WriteEntry("SalesForcceIntegration", e.Message,
+                   EventLogEntryType.Error);
                 }
             }
         }
@@ -96,37 +90,43 @@ namespace SalesForceIntegration.DAL
         /// 
         /// </summary>
         /// <returns></returns>
-        public List<SalesForceEvent> CreateEvent()
+        public int CreateEvent(SalesForceEvent eventsales)
         {
             List<SalesForceEvent> listEvents = new List<SalesForceEvent>();
             try
             {
+                Event salesevent = new Event();
+                salesevent.Subject = eventsales.Subject;
+                salesevent.StartDateTime = eventsales.StartDate;
+                salesevent.EndDateTime = eventsales.EndDate;
+                salesevent.Location = eventsales.Location;
+                salesevent.Description = eventsales.Description;
+                salesevent.StartDateTimeSpecified = true;
+                salesevent.EndDateTimeSpecified = true;
                 QueryResult queryResult = null;
 
-                String SOQL = "";
+               
 
-                SOQL = "select subject,StartDateTime ,EndDateTime from event";
+               SaveResult[] results= SfdcBinding.create(new sObject[] { salesevent });
 
-                queryResult = SfdcBinding.query(SOQL);
+                //for (int i = 0; i < queryResult.size; i++)
+                //{
+                //    SalesForceEvent sfEvent = new SalesForceEvent();
+                //    Event salesforceEvent = (Event)queryResult.records[i];
+                //    sfEvent.Subject = salesforceEvent.Subject;
+                //    sfEvent.StartDate = salesforceEvent.StartDateTime;
+                //    sfEvent.EndDate = salesforceEvent.EndDateTime; ;
+                //    sfEvent.Id = i;
+                //    listEvents.Add(sfEvent);
+                //}
 
-
-                for (int i = 0; i < queryResult.size; i++)
-                {
-                    SalesForceEvent sfEvent = new SalesForceEvent();
-                    Event salesforceEvent = (Event)queryResult.records[i];
-                    sfEvent.Subject = salesforceEvent.Subject;
-                    sfEvent.StartDate = salesforceEvent.StartDateTime;
-                    sfEvent.EndDate = salesforceEvent.EndDateTime; ;
-                    sfEvent.Id = i;
-                    listEvents.Add(sfEvent);
-                }
-
-                return listEvents;
+                return 1;
             }
             catch (Exception e)
             {
-
-                return listEvents;
+                EventLog.WriteEntry("SalesForcceIntegration", e.Message,
+                    EventLogEntryType.Error);
+                return 0;
             }
 
         }
