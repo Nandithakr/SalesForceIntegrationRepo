@@ -17,7 +17,7 @@ namespace SalesForceIntegration.DAL
         {
 
             if (SfdcBinding == null)
-            {
+            { 
                 string userName;
 
                 string password;

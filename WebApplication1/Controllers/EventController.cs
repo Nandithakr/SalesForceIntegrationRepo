@@ -54,6 +54,7 @@ namespace SalesForceIntegration.Controllers
             eventsales.Subject = "TestEvent to check for Creating events";
             eventsales.StartDate = DateTime.Now;
             eventsales.EndDate = eventsales.StartDate.Value.AddHours(1);
+            eventsales.Location = "Conference Room";        
             eventdal.CreateEvent(eventsales);
             return View("Index");
         }

@@ -11,10 +11,8 @@
     <link rel="stylesheet" href="  https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.css" type="text/css" />
     <script src=" https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.min.js" type="text/javascript"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.print.css" media="print" type="text/css" />
-
-
-
 </header>
+
 <div class="EventsDiv">
     <div id="calendar">
     </div>
@@ -23,6 +21,7 @@
 <script>
     $(document).ready(function () {
 
+        //Initialize full calendar
         $('#calendar').fullCalendar({
             defaultView: 'listWeek',
             height: '500px',
@@ -30,32 +29,26 @@
                 left: 'prev,next, today',
                 center: 'title',
                 right: 'agendaWeek,agendaDay, agendaMonth,listWeek'
-            },
+            },         
             timezone:'local',
             events: function (start, end, timezone, callback) {
                 $.ajax({
                     url: '/Event/GetCalendarEvents',
                     dataType: 'json',
-                    //data: {
-                    //    // our hypothetical feed requires UNIX timestamps
-                    //    start: start.unix(),
-                    //    end: end.unix()
-                    //},
                     success: function (doc) {
                         var events = [];
                         $(doc).each(function () {
                             events.push({
                                 title: $(this).attr('title'),
-                                start: $(this).attr('start') // will be parsed
+                                start: $(this).attr('start'),
+                                end: $(this).attr('end')
                             });
                         });
                         callback(events);
                     }
                 });
-            }
-
+            },
         })
-
     });
 
 </script>
