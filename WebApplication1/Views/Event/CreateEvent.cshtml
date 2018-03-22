@@ -1,0 +1,59 @@
+﻿
+@using SalesForceIntegration.Models
+@model SalesForceEvent
+@{
+    ViewBag.Title = "Events";
+}
+
+<header>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" type="text/css" />
+ 
+</header>
+<div class="EventsDiv">
+    <div class="row">
+        <div class="col-sm-8 col-">
+            <div class="col-sm-4">
+                @Html.LabelFor(model => model.Subject)
+            </div>
+            <div class="col-sm-4">
+                @Html.TextBoxFor(model => model.Subject)
+            </div>
+            <br />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-8 col-">
+            <div class="col-sm-4">
+                @Html.LabelFor(model => model.StartDate)
+            </div>
+            <div class="col-sm-4">
+                @Html.EditorFor(model => model.StartDate, new { @class = "form-control datepicker" })
+            </div>
+            <br />
+        </div>
+    </div>
+    <br />
+    <div class="row">
+        <div class="col-sm-8 col-">
+            <div class="col-sm-4">
+                @Html.LabelFor(model => model.EndDate)
+            </div>
+            <div class="col-sm-4">
+                @Html.EditorFor(model => model.EndDate)
+            </div>
+            <br />
+        </div>
+    </div>
+    <input type="button" class="button" text="Save"/>
+</div>
+
+<script>
+    $(document).ready(function () {
+
+        $('.datepicker').Datepicker();
+    });
+
+</script>
