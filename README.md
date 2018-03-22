@@ -8,4 +8,4 @@ Display of  events in table and calendar mode.
 
 Creating events - https://salesforceintegration20180320024717.azurewebsites.net\Event\CreateEvent
 
-Creates a ;test event to check if it really creates event in salesforce. UI yet to be developed!
+Creates a ;test event for the current time to check if it really creates event in salesforce. UI yet to be developed!
